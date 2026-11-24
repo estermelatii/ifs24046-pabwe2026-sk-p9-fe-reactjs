@@ -42,6 +42,22 @@ function NotFound() {
   )
 }
 
+/** Ditampilkan di /admin untuk pengguna non-admin (URL tetap, tanpa pengalihan). */
+function AdminOnly() {
+  useDocumentMeta('Akses terbatas', 'Halaman ini hanya dapat diakses oleh admin Delcom Blog.')
+  return (
+    <section className="mx-auto max-w-3xl px-4 py-16 text-center sm:px-8" aria-labelledby="admin-only-title">
+      <h1 id="admin-only-title" className="mega text-ink" style={{ fontSize: 'clamp(2.5rem, 8vw, 4.5rem)' }}>
+        akses terbatas
+      </h1>
+      <p className="mt-6 text-lg text-muted">Panel admin hanya dapat diakses oleh akun dengan peran admin.</p>
+      <Link to="/author" className="btn-primary mt-8">
+        Ke ruang penulis
+      </Link>
+    </section>
+  )
+}
+
 /** Mengalihkan ke rute lain sebagai efek (dipakai untuk penjagaan akses). */
 function Redirect({ to }) {
   useEffect(() => navigate(to, { replace: true }), [to])
@@ -82,7 +98,7 @@ export default function App() {
     let body
     if (checking) body = <PageLoader label="Memeriksa sesi..." />
     else if (!user) body = <Redirect to="/login" />
-    else if (route.name === 'admin' && user.role !== 'admin') body = <Redirect to="/author" />
+    else if (route.name === 'admin' && user.role !== 'admin') body = <AdminOnly />
     else body = route.name === 'admin' ? <AdminDashboard /> : <AuthorDashboard />
     return (
       <>

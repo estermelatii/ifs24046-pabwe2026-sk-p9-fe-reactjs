@@ -26,6 +26,8 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     setupFiles: './src/setupTests.js',
+    // Tes memakai path relatif; abaikan alamat backend dari .env agar hasil tes konsisten.
+    env: { VITE_API_BASE_URL: '', VITE_DELCOM_BASEURL: '' },
     coverage: {
       provider: 'v8',
       include: ['src/**/*.{js,jsx}'],

@@ -110,14 +110,16 @@ describe('App', () => {
     expect(await screen.findByRole('heading', { name: 'ruang penulis' })).toBeInTheDocument()
   })
 
-  it('admin membuka /admin; member dialihkan ke /author', async () => {
+  it('admin membuka /admin; member melihat akses terbatas tanpa dialihkan', async () => {
     go('/admin')
     const first = app({ user: admin, handlers: adminApi() })
     expect(await screen.findByRole('heading', { name: 'panel admin' })).toBeInTheDocument()
     first.unmount()
     go('/admin')
     app({ user: member, handlers: memberApi() })
-    await waitFor(() => expect(window.location.pathname).toBe('/author'))
+    expect(await screen.findByRole('heading', { name: 'akses terbatas' })).toBeInTheDocument()
+    expect(window.location.pathname).toBe('/admin')
+    await userEvent.click(screen.getByRole('link', { name: 'Ke ruang penulis' }))
     expect(await screen.findByRole('heading', { name: 'ruang penulis' })).toBeInTheDocument()
   })
 
