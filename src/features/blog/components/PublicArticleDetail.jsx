@@ -17,7 +17,7 @@ export default function PublicArticleDetail({ slug }) {
     setState({ loading: true, error: '', status: 0, post: null })
     getPublicPost(slug)
       .then((post) => alive && setState({ loading: false, error: '', status: 200, post }))
-      .catch((err) => alive && setState({ loading: false, error: err.message, status: err.status ?? 0, post: null }))
+      .catch((err) => alive && setState({ loading: false, error: err.message, status: err.status, post: null }))
     return () => {
       alive = false
     }

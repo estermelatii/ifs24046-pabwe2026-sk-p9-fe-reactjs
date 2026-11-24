@@ -29,8 +29,9 @@ export default defineConfig({
     coverage: {
       provider: 'v8',
       include: ['src/**/*.{js,jsx}'],
-      exclude: ['src/main.jsx', 'src/setupTests.js', 'src/**/*.test.{js,jsx}'],
+      exclude: ['src/main.jsx', 'src/setupTests.js', 'src/testUtils.jsx', 'src/**/*.test.{js,jsx}'],
       reporter: ['text', 'json', 'html'],
+      thresholds: { statements: 100, branches: 100, functions: 100, lines: 100 },
     },
   },
 })

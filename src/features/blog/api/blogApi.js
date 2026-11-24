@@ -1,4 +1,5 @@
 import { apiFetch } from '../../../helpers/apiHelper'
+import { normalizePost, normalizePosts, normalizeStats } from '../../../helpers/dataMapper'
 
 export const getCategories = () => apiFetch('/api/public/categories', { auth: false })
 
@@ -7,13 +8,13 @@ export function getPublicPosts({ q = '', category = '' } = {}, signal) {
   if (q) params.set('q', q)
   if (category && category !== 'Semua') params.set('category', category)
   const qs = params.toString()
-  return apiFetch(`/api/public/posts${qs ? `?${qs}` : ''}`, { auth: false, signal })
+  return apiFetch(`/api/public/posts${qs ? `?${qs}` : ''}`, { auth: false, signal }).then(normalizePosts)
 }
 
-export const getPublicPost = (slug) => apiFetch(`/api/public/posts/${encodeURIComponent(slug)}`, { auth: false })
+export const getPublicPost = (slug) => apiFetch(`/api/public/posts/${encodeURIComponent(slug)}`, { auth: false }).then(normalizePost)
 
-export const getMyPosts = () => apiFetch('/api/posts')
-export const getMyStats = () => apiFetch('/api/posts/stats')
+export const getMyPosts = () => apiFetch('/api/posts').then(normalizePosts)
+export const getMyStats = () => apiFetch('/api/posts/stats').then(normalizeStats)
 export const getMyPost = (id) => apiFetch(`/api/posts/${id}`)
 export const createPost = (payload) => apiFetch('/api/posts', { method: 'POST', body: payload })
 export const updatePost = (id, payload) => apiFetch(`/api/posts/${id}`, { method: 'PUT', body: payload })

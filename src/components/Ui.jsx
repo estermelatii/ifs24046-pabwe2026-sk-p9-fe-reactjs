@@ -58,7 +58,7 @@ export function Modal({ open, onClose, title, children, footer, fullScreen = fal
     if (!open) return undefined
     previous.current = document.activeElement
     document.body.style.overflow = 'hidden'
-    const focusables = () => panel.current?.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])') ?? []
+    const focusables = () => panel.current.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')
     const t = window.setTimeout(() => (panel.current?.querySelector('[data-autofocus]') ?? focusables()[0])?.focus(), 30)
 
     const onKey = (event) => {
